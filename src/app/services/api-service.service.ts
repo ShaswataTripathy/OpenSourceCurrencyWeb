@@ -7,8 +7,8 @@ import { Currency } from '../models/currency';
 })
 export class ApiService {
 
-  //private baseUrl = "https://open-source-currency-api.herokuapp.com/currency"
-  private baseUrl = "https://localhost:5001/currency";
+  private baseUrl = "https://open-source-currency-api.herokuapp.com/currency"
+  
   constructor(public http: HttpClient) { }
 
   public getAllCurrencies(): Observable<Currency[]>{    
