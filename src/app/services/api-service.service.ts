@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams  } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Currency } from '../models/currency';
 @Injectable({
@@ -7,7 +7,8 @@ import { Currency } from '../models/currency';
 })
 export class ApiService {
 
-  private baseUrl = "https://open-source-currency-api.herokuapp.com/currency"
+  //private baseUrl = "https://open-source-currency-api.herokuapp.com/currency"
+  private baseUrl = "https://localhost:5001/currency";
   constructor(public http: HttpClient) { }
 
   public getAllCurrencies(): Observable<Currency[]>{    
@@ -18,4 +19,8 @@ export class ApiService {
     
     return this.http.get<any>(`${this.baseUrl}/comparison/${currency}`);
   }
+
+  public downloadFile(currency: string): any{		
+		return this.http.get(`${this.baseUrl}/comparison/download/${currency}`, {responseType: 'blob'});
+   }
 }

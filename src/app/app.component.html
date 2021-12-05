@@ -54,12 +54,22 @@
           {{ currency.currencyShortName }} --- {{ currency.currencyFullName }}
         </option>
       </select>
+      <div class="mt-2">
+        <button
+          type="button"
+          [disabled]="!(currencySelected.length > 0) ? 'disabled' : null"
+          (click)="download()"
+          class="btn btn-primary float-end"
+        >
+          Export To CSV
+        </button>
+      </div>
     </div>
     <div class="card mt-5">
-      <h4>Result {{conversionDate}} </h4> 
+      <h4>Result {{ conversionDate }}</h4>
       <div>
         <ag-grid-angular
-          style="width: 100%; height:400px"
+          style="width: 100%; height: 400px"
           class="ag-theme-balham"
           [rowData]="currenciesPriceList"
           [columnDefs]="columnDefs"

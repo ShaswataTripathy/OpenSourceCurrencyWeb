@@ -2,6 +2,8 @@ import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Currency } from './models/currency';
 import { ApiService } from './services/api-service.service';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-root',
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit {
   onChange(newValue: any) {
     this.currencySelected = newValue;
     this.gridApi.showLoadingOverlay();
+    if(this.currencySelected.length>0){
     this.apiService
       .getCurrenciesComparison(this.currencySelected.trim())
       .subscribe((x) => {
@@ -54,7 +57,22 @@ export class AppComponent implements OnInit {
         this.currenciesPriceList = x.currencyBasePriceList;
         this.gridApi.hideOverlay();
       });
+    }
   }
+
+  download() {
+    if(this.currencySelected.length> 0){
+      this.apiService.downloadFile(this.currencySelected).subscribe((response: any) => {
+        let blob:any = new Blob([response], { type: 'text/csv; charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        
+        
+        saveAs(blob,`${this.conversionDate}_${this,this.currencySelected}.csv`);
+        }), (error: any) => console.log('Error downloading the file'),
+        () => console.info('File downloaded successfully');
+    }
+
+	}
 
   onGridReady(params: any) {
     this.gridApi = params.api;
